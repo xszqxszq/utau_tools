@@ -60,11 +60,14 @@ with open(json_file,'rb') as f:
                 wordT0=word[1]+(word[2]-word[1])/wordCount*j
                 wordT1=word[1]+(word[2]-word[1])/wordCount*(j+1)
 
+                if not wordRm.isalpha():
+                    continue
                 # case that one syllable has multiple samples
                 if wordRm in confidences:
                     wordRm=wordRm+'_2'
                 while wordRm in confidences:
-                    wordRm=wordRm.split('_')[0]+'_'+str(int(wordRm.split('_')[1])+1)
+                    snd, id = wordRm.split('_')
+                    wordRm=snd+'_'+str(int(id)+1)
 
                 # check if the word satisfies all thresholds
                 if wordConfi>confidence_threshold and (wordT1-wordT0)/wordCount>length_threshold:
